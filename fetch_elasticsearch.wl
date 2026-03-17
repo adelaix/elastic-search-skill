@@ -6,8 +6,8 @@ ExecuteElasticSearch[command_Association] := Module[
 
   (* Extract parameters from command association *)
   url = Lookup[command, "url", "https://elasticsearch.c6ww.wolframalpha.com/logstash-*/_search"];
-  username = Lookup[command, "username", Environment["USERNAME"]];
-  password = Lookup[command, "password", Environment["PASSWORD"]];
+  username = Lookup[command, "username", Environment["ESUSERNAME"]];
+  password = Lookup[command, "password", Environment["ESPASSWORD"]];
   queryString = Lookup[command, "queryString", ""];
   startTime = Lookup[command, "startTime", None];
   endTime = Lookup[command, "endTime", None];
