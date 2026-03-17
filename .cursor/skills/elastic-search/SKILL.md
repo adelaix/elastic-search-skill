@@ -12,7 +12,7 @@ When the user wants to fetch data from Elasticsearch:
 1. **Load the function**: `Get["<project-root>/fetch_elasticsearch.wl"]` — use the full path to the project's `fetch_elasticsearch.wl` (e.g. `/Users/delaix/Projects/git/elastic-search-skill/fetch_elasticsearch.wl` for this repo)
 2. **Build the command** as an Association with the required keys
 3. **Call** `ExecuteElasticSearch[command]` via the Wolfram Language Evaluator
-4. **Extract hits** from `response["hits"]["hits"]`
+4. **Extract hits** using `Lookup["hits"]@*Lookup["hits"]@response` (response is nested rules, not Associations)
 
 ## Command Parameters
 
@@ -59,7 +59,7 @@ Lookup["hits"]@*Lookup["hits"]@response  (* list of documents *)
 Lookup["total"]@*Lookup["hits"]@response (* total matching count *)
 ```
 
-Each hit has `["_id"]`, `["_source"]` (the document).
+Each hit is rules; use `Lookup[hit, "_id"]` and `Lookup[hit, "_source"]` for the document.
 
 ## Additional Resources
 

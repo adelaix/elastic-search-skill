@@ -6,7 +6,7 @@
 ExecuteElasticSearch[command_Association]
 ```
 
-Returns the raw Elasticsearch JSON response (Association).
+Returns the raw Elasticsearch JSON response. The result is a nested structure of lists of rules (not Associations); use `Lookup` to extract values.
 
 ## Command Association Keys
 
@@ -42,14 +42,11 @@ The function builds a `bool` query with `must`:
 
 ## Response Format
 
+The response is nested lists of rules. Use `Lookup` to extract:
+
 ```wolfram
-<|
-  "hits" -> <|
-    "total" -> <|"value" -> n, ...|>,
-    "hits" -> {<|"_id" -> ..., "_source" -> <|...|>, ...|>, ...}
-  |>,
-  ...
-|>
+hits = Lookup["hits"]@*Lookup["hits"]@response   (* list of documents *)
+total = Lookup["total"]@*Lookup["hits"]@response (* total count *)
 ```
 
-Access documents: `Lookup["hits"]@*Lookup["hits"]@response`
+For each hit: `Lookup[hit, "_id"]`, `Lookup[hit, "_source"]`

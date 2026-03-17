@@ -30,7 +30,8 @@ cmd = <|
 |>;
 
 response = ExecuteElasticSearch[cmd]
-hits = response["hits"]["hits"]
+hits = Lookup["hits"]@*Lookup["hits"]@response
+total = Lookup["total"]@*Lookup["hits"]@response
 ```
 
 ### Run the example script
@@ -67,12 +68,14 @@ Uses Elasticsearch `query_string` (Lucene):
 
 ## Response
 
+The response is a nested structure of lists of rules (not Associations). Use `Lookup` to extract values:
+
 ```wolfram
-response["hits"]["hits"]   (* list of documents *)
-response["hits"]["total"]   (* total matching count *)
+hits = Lookup["hits"]@*Lookup["hits"]@response   (* list of documents *)
+total = Lookup["total"]@*Lookup["hits"]@response (* total matching count *)
 ```
 
-Each hit has `["_id"]` and `["_source"]` (the document).
+Each hit is also rules; use `Lookup[hit, "_id"]` and `Lookup[hit, "_source"]` for the document.
 
 ## Cursor Skill
 
