@@ -1,8 +1,8 @@
 (* Fetch data from Elasticsearch using a KQL-style query string *)
 
 url = "https://elasticsearch.c6ww.wolframalpha.com/logstash-*/_search";
-username = "es_admin";
-password = "Z2EhHfDVh7tXLwu5";
+username = Replace[Environment["USERNAME"], {$Failed | "" | _Missing -> "es_admin"}];
+password = Replace[Environment["PASSWORD"], {$Failed | "" | _Missing -> "Z2EhHfDVh7tXLwu5"}];
 
 (* Query string: message contains "Label" -> "PreCalculateScan", excluding certain IP ranges *)
 queryString = "message: \"\\\"Label\\\" -> \\\"PreCalculateScan\\\"\" AND kubernetes.container_name:\"active-web-elements-server-public-en*\" AND NOT (10.16.61.* OR 10.128.*.* OR 10.5.13.*)";
